@@ -186,10 +186,10 @@ CMD ["npm", "start"]
 
 ![image](img/alpine-stage-docker-images.png)
 
-### 七、使用 distroless 讓正式環境更加安全
+### 七、使用 Distroless 讓正式環境更加安全
 
-儘管上面我們已經使用 alpine 讓 Docker Image 變得這麼小，但在文章的最後我想再提供給讀者一個選擇，
-那就是「distroless」！
+儘管上面我們已經使用 Alpine 讓 Docker Image 變得這麼小，但在文章的最後我想再提供給讀者一個選擇，
+那就是「Distroless」！
 
 先讓我們用它來 Build 一個 Docker Image。
 
@@ -199,7 +199,7 @@ WORKDIR /usr/src/app
 COPY package.json index.js ./
 RUN npm install --production
 
-# 改成用 distroless
+# 改成用 Distroless
 FROM gcr.io/distroless/nodejs
 WORKDIR /usr/src/app
 COPY --from=builder /usr/src/app .
