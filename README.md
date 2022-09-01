@@ -80,12 +80,12 @@ CMD ["npm", "start"]
 
 接下來輸入 `docker build -t docker-test .` 就可以建立 Docker Image（docker-test 是名稱）。
 
-然後輸入 `docker images` ，確認剛剛建立的 Docker Image 是否存在；從下圖我們可以看到沒經過優化的 **Image 大小高達 1.01GB**。
+然後輸入 `docker images` ，確認剛剛建立的 Docker Image 是否存在；從下圖我們可以看到優化前的 **Image 大小高達 1.01GB**。
 ![image](img/init-docker-images.png)
 
 ### 三、使用 Node.js 的 Alpine 版本
 
-Alpine 版本的 Image 體積會遠小於完整的 Node.js Image，現在我們修改一下 Dockerfile：
+Node.js Alpine 版本的 Image 體積會遠小於完整的 Node.js Image，現在我們修改一下 Dockerfile：
 
 ```Dockerfile
 # 使用 Alpine 版本 
@@ -102,11 +102,11 @@ EXPOSE 3000
 CMD ["npm", "start"]
 ```
 
-輸入 `docker build -t docker-test-alpine .` 來建立 Image，完成後輸入 `docker images` 看看 build 出來的 Image 有多少差異。
+輸入 `docker build -t docker-test-alpine .` 來建立 Image，完成後輸入 `docker images` 看看 build 出來的 Image 體積是否改變。
 
 ![image](img/alpine-docker-images.png)
 
-從上圖我們可以看到，透過 Alpine Linux 我們讓它的體積從 1.01GB 下降到了 189MB，整整少了 812MB！
+從上圖我們可以看到，Alpine 的版本讓它的體積從 1.01GB 下降到了 189MB，整整少了 812MB！
 
 ### 四、正式環境下，不需要安裝 devDependencies 的套件
 
@@ -129,9 +129,9 @@ EXPOSE 3000
 CMD ["npm", "start"]
 ```
 
-建立好 Image 後，透過 `docker images` 我們可以看到體積又變小了，果然還有優化的空間（少了 12MB）。
-
 ![image](img/alpine-production-docker-images.png)
+
+在上圖我們可以看到體積又變小了，果然還有優化的空間（少了 12MB）。
 
 ### 五、如果我們只使用最基礎的 Alpine，然後 Node.js 自己安裝呢？
 
@@ -155,9 +155,9 @@ EXPOSE 3000
 CMD ["npm", "start"]
 ```
 
-沒想到這個操作又把整包 Image 的體積壓的更低了（從 177MB 降到 64.7MB）。
+![image](img/alpine-node-docker-images.png)
 
-![image](img/alpine-production-docker-images.png)
+沒想到這個操作又把整包 Image 的體積壓的更低了（從 177MB 降到 64.7MB）。
 
 ### 六、採用多階段構建，取用上個階段產生的結果
 
